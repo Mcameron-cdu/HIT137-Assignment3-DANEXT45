@@ -1,36 +1,44 @@
-from transformers import pipeline   # Import the hugging face pipeline function
+# models.py
+# Contains BaseModel and subclasses for Hugging Face models
 
-# template for all models
+from transformers import pipeline
+
+
+# Base template for all models
 class BaseModel:
-    def __init__(self, model_name, task): # takes the hugging face model name and the task
-        self._model_name = model_name 
+    def __init__(self, model_name, task):
+        self._model_name = model_name
         self._task = task
-        self._pipeline = None # stores the details
+        self._pipeline = None
 
     def load(self):
-        self._pipeline = pipeline(self._task, model=self._model_name) # Load the hugging face model
+        """Load the Hugging Face model into a pipeline."""
+        self._pipeline = pipeline(self._task, model=self._model_name)
 
     def run(self, input_data):
-        raise NotImplementedError("Subclasses must override this method") # this is a placeholder line for the models to override when run
+        """Must be overridden by subclasses."""
+        raise NotImplementedError("Subclasses must override this method")
 
     def get_info(self):
-        return f"Model: {self._model_name}\nTask: {self._task}" # generates some information about the actual model
+        """Return information about the model."""
+        return f"Model: {self._model_name}\nTask: {self._task}"
 
 
-# text generation model
+# Text generation model
 class TextGenerator(BaseModel):
     def __init__(self):
-        super().__init__("distilgpt2", "text-generation") # Tells the constructor the model name and task
+        super().__init__("distilgpt2", "text-generation")
+
     def run(self, input_data):
         result = self._pipeline(input_data, max_length=50, num_return_sequences=1)
-        return result[0]["generated_text"] # takes text input, generates new text and returns it
+        return result[0]["generated_text"]
 
 
-# image reading model
+# Image captioning model
 class ImageCaptioner(BaseModel):
     def __init__(self):
-        super().__init__("nlpconnect/vit-gpt2-image-captioning", "image-to-text") # Tells the constructor the model name and task
+        super().__init__("nlpconnect/vit-gpt2-image-captioning", "image-to-text")
 
     def run(self, input_data):
         result = self._pipeline(images=input_data)
-        return result[0]["generated_text"] # takes image file path input, generates text and returns it
+        return result[0]["generated_text"]
