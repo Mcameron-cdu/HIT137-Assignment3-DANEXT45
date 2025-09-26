@@ -97,7 +97,8 @@ class App:
             "- Inheritance: BaseModel is inherited by TextGenerator and ImageCaptioner.\n"
             "- Method Overriding: The run() method is defined in BaseModel and overridden in each subclass.\n"
             "- Polymorphism: GUI can call run() on any model without knowing the implementation.\n"
-            "- Multiple Inheritance & Decorators: TODO – to be added by another teammate."
+            "- Multiple Inheritance & Decorators: LoggerMixin is combined with BaseModel to add logging to models.\n"
+            "- Decorators: @ensure_loaded ensures a model is loaded before run() is executed."
         )
         messagebox.showinfo("OOP Explanations", explanation)
 
