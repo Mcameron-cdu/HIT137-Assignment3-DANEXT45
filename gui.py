@@ -1,7 +1,7 @@
 # gui.py
 # This file sets up the Tkinter window and adds a basic label + button.
 
-import tkinter as tk  # Tkinter is Python's built-in GUI library
+import tkinter as tk 
 
 class App:
     def __init__(self):
@@ -11,7 +11,7 @@ class App:
         self.root.geometry("600x400")  # Set window size (width x height)
 
         # Add a label (text on screen)
-        label = tk.Label(self.root, text="Hello from Tkinter!", font=("Arial", 16))
+        label = tk.Label(self.root, text="Hello!", font=("Arial", 16))
         label.pack(pady=20)  # Place it in the window with some padding
 
         # Add a Quit button to close the app
