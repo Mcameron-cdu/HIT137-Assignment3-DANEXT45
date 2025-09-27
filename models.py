@@ -46,6 +46,7 @@ class TextGenerator(LoggerMixin, BaseModel):
     def __init__(self):
         super().__init__("distilgpt2", "text-generation")
 
+    @ensure_loaded
     def run(self, input_data):
         self.log(f"Running TextGenerator with input: {input_data}")
         result = self._pipeline(input_data, max_length=50, num_return_sequences=1)
@@ -57,6 +58,7 @@ class ImageCaptioner(LoggerMixin, BaseModel):
     def __init__(self):
         super().__init__("nlpconnect/vit-gpt2-image-captioning", "image-to-text")
 
+    @ensure_loaded
     def run(self, input_data):
         self.log(f"Running ImageCaptioner with image: {input_data}")
         result = self._pipeline(images=input_data)
