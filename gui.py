@@ -44,6 +44,10 @@ class App:
         # OOP Explanation button
         self.explain_button = tk.Button(self.root, text="Show OOP Explanations", command=self.show_oop_explain)
         self.explain_button.pack(pady=10)
+        
+        # Show Logs Button
+        self.logs_button = tk.Button(self.root, text="View Logs", command=self.show_logs)
+        self.logs_button.pack(pady=10)
 
         # Quit button
         tk.Button(self.root, text="Quit", command=self.root.quit).pack(pady=10)
@@ -89,6 +93,27 @@ class App:
             info = self.image_model.get_info()
         messagebox.showinfo("Model Info", info)
 
+# Creates a file that stores each input into the models
+    def show_logs(self):
+        try:
+            with open("model.log", "r", encoding="utf-8") as f:
+                logs = f.read()
+        except FileNotFoundError:
+            logs = "No logs found. Use a model first to generate logs."
+
+        log_window = tk.Toplevel(self.root)
+        log_window.title("Model Logs")
+        log_window.geometry("600x400")
+
+        text_area = tk.Text(log_window, wrap="word")
+        text_area.insert("1.0", logs)
+        text_area.config(state="disabled")  # read-only
+        text_area.pack(expand=True, fill="both")
+
+        # Auto-scroll to bottom so newest logs are visible
+        text_area.see("end")
+        tk.Button(log_window, text="Close", command=log_window.destroy).pack(pady=5)
+
     def show_oop_explain(self):
         """Show explanations of OOP usage in this project."""
         explanation = (
@@ -98,8 +123,8 @@ class App:
             "- Method Overriding: The run() method is defined in BaseModel and overridden in each subclass.\n"
             "- Polymorphism: GUI can call run() on any model without knowing the implementation.\n"
             "- Multiple Inheritance & Decorators: LoggerMixin is combined with BaseModel to add logging to models.\n"
-            "- Decorators: @ensure_loaded ensures a model is loaded before run() is executed."
-        )
+            "- Decorators: @ensure_loaded ensures a model is loaded before run() is executed." 
+            )
         messagebox.showinfo("OOP Explanations", explanation)
 
     def run(self):
